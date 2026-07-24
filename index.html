@@ -421,11 +421,11 @@
     <div class="preview-grid" id="previewGrid" style="display:none">
       <div class="preview-box">
         <div class="cap">Ảnh gốc (đã cắt)</div>
-        <canvas id="canvasOrig" width="320" height="240"></canvas>
+        <canvas id="canvasOrig" width="192" height="144"></canvas>
       </div>
       <div class="preview-box">
         <div class="cap">Xem trước trên e-paper</div>
-        <canvas id="canvasDither" width="320" height="240"></canvas>
+        <canvas id="canvasDither" width="192" height="144"></canvas>
       </div>
     </div>
 
@@ -476,15 +476,13 @@
   const CHAR_LONGVAL    = "0000ff01-0000-1000-8000-00805f9b34fb"; // ghi lệnh (đối thời/đổi giao diện/hiệu chỉnh/ảnh)
   const CHAR_ADCVAL     = "0000ff02-0000-1000-8000-00805f9b34fb"; // đọc điện áp pin (uint16 LE, đơn vị mV)
 
-  const IMG_W = 320, IMG_H = 240; // Chế độ BWR (đen-trắng-đỏ) - đã xác
-                                    // nhận nguyên nhân không hiển thị thật
-                                    // sự là do epd_init_win() với cửa sổ
-                                    // nhỏ (không phải do giới hạn sector
-                                    // flash) - giờ dùng epd_init() toàn
-                                    // màn hình + phóng to ảnh, có thể quay
-                                    // lại 320x240.
-  const IMG_PLANE_LEN = (IMG_W*IMG_H)/8; // 9600 byte/lớp
-  const IMG_DATA_LEN = IMG_PLANE_LEN*2;  // 19200 byte (đen-trắng + đỏ)
+  const IMG_W = 192, IMG_H = 144; // Chế độ BWR (đen-trắng-đỏ) - tăng thận
+                                    // trọng từ 144x108 lên 192x144 (nét
+                                    // hơn) - 320x240 đã bị TRÀN RAM (lỗi
+                                    // build L6221E), tăng từng bước vừa
+                                    // phải thay vì nhảy quá cao.
+  const IMG_PLANE_LEN = (IMG_W*IMG_H)/8; // 3456 byte/lớp
+  const IMG_DATA_LEN = IMG_PLANE_LEN*2;  // 6912 byte (đen-trắng + đỏ)
   const IMG_CHUNK_SIZE = 128; // khớp firmware: 2 gói = đúng 1 trang flash 256 byte
 
   let device = null, gattServer = null, longValChar = null, adcChar = null;
